@@ -125,6 +125,7 @@ export const useScheduleStore = defineStore('ScheduleStore', () => {
     isLoading,
     isError,
     fetchTasks,
-    overskredneTasks
+    overskredneTasks,
+    checkAndUpdateTaskStatuses
   };
 });
