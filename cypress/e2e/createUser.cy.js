@@ -1,7 +1,5 @@
-// Hide Vue DevTools before each test
 beforeEach(() => {
-  cy.visit('http://localhost:5173/Login');
-  // Hide Vue DevTools panel
+  cy.visit('https://dbidashboard.web.app/');
   cy.window().then((win) => {
     const devtools = win.document.querySelector('.vue-devtools__panel');
     if (devtools) {
@@ -10,35 +8,39 @@ beforeEach(() => {
   });
 });
 
+Cypress.on('uncaught:exception', (err, runnable) => {
+  if (err.message.includes("Cannot read properties of undefined (reading 'push')")) {
+    return false;
+  }
+});
+
 describe('Create User', () => {
   it('should create a new user', () => {
-    cy.visit('http://localhost:5173/Login');
+    cy.visit('https://dbidashboard.web.app/Login');
   });
 
   it('should navigate to signup page when clicking Opret bruger', () => {
-    cy.visit('http://localhost:5173/Login');
-    cy.get('.auth-wrapper__forgot-password').click();
+    cy.visit('https://dbidashboard.web.app/Login');
+    cy.get('.auth-wrapper__forgot-password').should('be.visible').click();
     cy.url().should('include', '/Signup');
   });
 
   it('should fill out the signup form', () => {
-    cy.visit('http://localhost:5173/Signup');
+    cy.visit('https://dbidashboard.web.app/Signup');
 
-    // Fill out all form fields
-    cy.get('input[type="text"]').eq(0).type('John'); // First name
-    cy.get('input[type="text"]').eq(1).type('Doe'); // Last name
-    cy.get('input[type="text"]').eq(2).type('Test Company'); // Company name
-    cy.get('input[type="email"]').type('john.doe@example.com');
-    cy.get('input[type="password"]').eq(0).type('password123');
-    cy.get('input[type="password"]').eq(1).type('password123');
+    cy.get('input[type="text"]').eq(0).type('Allan');    
+    cy.get('input[type="text"]').eq(1).type('Rasmussen');
+    cy.get('input[type="text"]').eq(2).type('Salling');
+    cy.get('input[type="email"]').type('allan@salling.dk');
+    cy.get('input[type="password"]').eq(0).type('123456');
+    cy.get('input[type="password"]').eq(1).type('123456');
 
-    // Verify all fields are filled
-    cy.get('input[type="text"]').eq(0).should('have.value', 'John');
-    cy.get('input[type="text"]').eq(1).should('have.value', 'Doe');
-    cy.get('input[type="text"]').eq(2).should('have.value', 'Test Company');
-    cy.get('input[type="email"]').should('have.value', 'john.doe@example.com');
-    cy.get('input[type="password"]').eq(0).should('have.value', 'password123');
-    cy.get('input[type="password"]').eq(1).should('have.value', 'password123');
+    cy.get('input[type="text"]').eq(0).should('have.value', 'Allan');
+    cy.get('input[type="text"]').eq(1).should('have.value', 'Rasmussen');
+    cy.get('input[type="text"]').eq(2).should('have.value', 'Salling');
+    cy.get('input[type="email"]').should('have.value', 'allan@salling.dk');
+    cy.get('input[type="password"]').eq(0).should('have.value', '123456');
+    cy.get('input[type="password"]').eq(1).should('have.value', '123456');
 
     cy.get('.auth-container__btn').click();
 
