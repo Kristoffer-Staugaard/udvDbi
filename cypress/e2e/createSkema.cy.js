@@ -1,5 +1,3 @@
-/// <reference types="cypress" />
-
 // Hide Vue DevTools before each test
 beforeEach(() => {
   cy.visit('http://localhost:5173/Login');
